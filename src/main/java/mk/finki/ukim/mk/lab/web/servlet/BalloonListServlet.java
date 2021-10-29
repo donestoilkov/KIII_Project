@@ -20,12 +20,15 @@ public class BalloonListServlet extends HttpServlet {
     public BalloonListServlet(BalloonService balloonService, SpringTemplateEngine springTemplateEngine) {
         this.balloonService = balloonService;
         this.springTemplateEngine = springTemplateEngine;
+        Integer requestCount = 0;
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         WebContext context = new WebContext(req,resp,req.getServletContext());
         context.setVariable("balloons",balloonService.listAll());
+        Integer requestCount = 0;
+        req.getSession().setAttribute("requests", requestCount);
         springTemplateEngine.process("listBalloons.html",context,resp.getWriter());
     }
 
