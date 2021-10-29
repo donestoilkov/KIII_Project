@@ -18,4 +18,9 @@ public class Order {
         this.clientAddress = clientAddress;
         this.orderId = orderId;
     }
+
+    @Override
+    public String toString() {
+        return String.format("Client Name:%s Client Address: %s Balloon Color:%s Balloon Size:%s",this.clientName,this.clientAddress, this.balloonColor, this.balloonSize);
+    }
 }

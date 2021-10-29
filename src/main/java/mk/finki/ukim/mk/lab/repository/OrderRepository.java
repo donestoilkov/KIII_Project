@@ -14,7 +14,6 @@ public class OrderRepository {
     }
 
     public Order saveOrUpdate(Order order){
-        DataHolder.orders.removeIf(r -> r.getBalloonColor().equals(order.getBalloonColor()));
         DataHolder.orders.add(order);
         return order;
     }

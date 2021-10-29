@@ -17,9 +17,9 @@
 <main>
     <h2>All Orders</h2>
     <ul>
-        <li th:each="order : ${orders}"><div><th:block th:text="${order.clientName}"></th:block></div></li>
+        <li th:each="order : ${orders}"><div><th:block th:text="${order.toString()}"></th:block></div></li>
     </ul>
-
+    <a href="/">New Order</a>
 </main>
 </body>
 </html>
