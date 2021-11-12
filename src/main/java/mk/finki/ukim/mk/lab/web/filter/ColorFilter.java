@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
 @WebFilter
 public class ColorFilter implements Filter {
     @Override
@@ -21,9 +22,9 @@ public class ColorFilter implements Filter {
 
         String color = (String) httpServletRequest.getSession().getAttribute("color");
         String path = httpServletRequest.getServletPath();
-        if(color!=null || path.equals(""))
-            filterChain.doFilter(httpServletRequest,httpServletResponse);
-        else httpServletResponse.sendRedirect("");
+        if (color != null || path.contains("/balloons"))
+            filterChain.doFilter(httpServletRequest, httpServletResponse);
+        else httpServletResponse.sendRedirect("/balloons");
     }
 
     @Override
