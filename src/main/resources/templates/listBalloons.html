@@ -15,6 +15,31 @@
     <h1>Welcome to our Balloon Shop App</h1>
 </header>
 <main>
+    <hr>
+    <hr>
+    <form th:action="@{/balloons}" th:method="GET">
+        <label>Filter by country of manufacturer:</label>
+            <select name="manufacturerCountry" class="form-control">
+                <option value="AllCountries">All Countries</option>
+                <option
+                        th:each="man : ${manufacturers}"
+                        th:value="${man.getCountry()}"
+                        th:text="${man.getCountry()}">
+                </option>
+            </select>
+        <label>Filter by name of manufacturer:</label>
+        <select name="manufacturerName" class="form-control">
+            <option value="AllNames">All Names</option>
+            <option
+                    th:each="man : ${manufacturers}"
+                    th:value="${man.getName()}"
+                    th:text="${man.getName()}"
+            >
+            </option>
+        </select>
+
+        <button type="submit" class="btn btn-lg">Filter</button>
+    </form>
     <h2>Choose balloon color:</h2>
     <table>
         <thead>
@@ -60,6 +85,11 @@
         </tbody>
     </table>
     <form th:action="@{'/balloons/add-form'}" th:method="GET"><button type="submit">Add new balloon</button></form>
+    <hr>
+    <hr>
+    <div th:if="${hasError}">
+        <p style="color: red">Balloon does not exist !</p>
+    </div>
 </main>
 </body>
 </html>

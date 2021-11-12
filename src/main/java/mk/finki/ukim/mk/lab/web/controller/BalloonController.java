@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/balloons")
@@ -24,8 +25,30 @@ public class BalloonController {
     }
 
     @GetMapping
-    public String getBalloonsPage(@RequestParam(required = false) String error, Model model) {
+    public String getBalloonsPage(@RequestParam(required = false) String error,@RequestParam(required = false) String manufacturerCountry,
+                                  @RequestParam(required = false) String manufacturerName, Model model) {
+        if(manufacturerCountry!= null && !manufacturerCountry.isEmpty() && !manufacturerCountry.equals("AllCountries")){
+            List<Balloon> balloons = balloonService.listAll().stream().filter(b -> b.getManufacturer().getCountry().equals(manufacturerCountry)).collect(Collectors.toList());
+            model.addAttribute("balloons", balloons);
+            List<Manufacturer> manufacturers = manufacturerService.findAll();
+            model.addAttribute("manufacturers", manufacturers);
+            return "listBalloons";
+        }
+        if(manufacturerName!=null && !manufacturerName.isEmpty() && !manufacturerName.equals("AllNames")){
+            List<Balloon> balloons = balloonService.listAll().stream().filter(b -> b.getManufacturer().getName().equals(manufacturerName)).collect(Collectors.toList());
+            model.addAttribute("balloons", balloons);
+            List<Manufacturer> manufacturers = manufacturerService.findAll();
+            model.addAttribute("manufacturers", manufacturers);
+            System.out.println(balloons);
+            return "listBalloons";
+        }
+        if(error!=null && !error.isEmpty()){
+            model.addAttribute("hasError", true);
+            model.addAttribute("error", error);
+        }
         List<Balloon> balloons = balloonService.listAll();
+        List<Manufacturer> manufacturers = manufacturerService.findAll();
+        model.addAttribute("manufacturers", manufacturers);
         model.addAttribute("balloons", balloons);
         return "listBalloons";
     }
@@ -63,7 +86,7 @@ public class BalloonController {
 
             return "add-balloon";
         }
-        return "redirect:/balloons";
+        return "redirect:/balloons?error=BalloonNotFound";
     }
 
     @GetMapping("/add-form")
@@ -72,4 +95,5 @@ public class BalloonController {
         model.addAttribute("manufacturers", manufacturers);
         return "add-balloon";
     }
+
 }

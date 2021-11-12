@@ -1,0 +1,25 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>All Orders</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Welcome to our Balloon Shop App</h1>
+</header>
+<main>
+    <h2>All Orders</h2>
+    <ul>
+        <li th:each="order : ${orders}"><div><th:block th:text="${order.toString()}"></th:block></div></li>
+    </ul>
+    <a href="/">New Order</a>
+</main>
+</body>
+</html>
