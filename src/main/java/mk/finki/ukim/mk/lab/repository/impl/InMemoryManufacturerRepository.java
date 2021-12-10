@@ -1,4 +1,4 @@
-package mk.finki.ukim.mk.lab.repository;
+package mk.finki.ukim.mk.lab.repository.impl;
 
 import mk.finki.ukim.mk.lab.bootstrap.DataHolder;
 import mk.finki.ukim.mk.lab.model.Manufacturer;
@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class ManufacturerRepository {
+public class InMemoryManufacturerRepository {
 
-    public List<Manufacturer> findAll(){
+    public List<Manufacturer> findAll() {
         return DataHolder.manufacturers;
     }
 
-    public Optional<Manufacturer> findById(Long id){
+    public Optional<Manufacturer> findById(Long id) {
         return DataHolder.manufacturers
                 .stream()
                 .filter(m -> m.getId().equals(id))

@@ -4,7 +4,6 @@ import mk.finki.ukim.mk.lab.model.Balloon;
 import mk.finki.ukim.mk.lab.model.Manufacturer;
 import mk.finki.ukim.mk.lab.service.BalloonService;
 import mk.finki.ukim.mk.lab.service.ManufacturerService;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,16 +24,16 @@ public class BalloonController {
     }
 
     @GetMapping
-    public String getBalloonsPage(@RequestParam(required = false) String error,@RequestParam(required = false) String manufacturerCountry,
+    public String getBalloonsPage(@RequestParam(required = false) String error, @RequestParam(required = false) String manufacturerCountry,
                                   @RequestParam(required = false) String manufacturerName, Model model) {
-        if(manufacturerCountry!= null && !manufacturerCountry.isEmpty() && !manufacturerCountry.equals("AllCountries")){
+        if (manufacturerCountry != null && !manufacturerCountry.isEmpty() && !manufacturerCountry.equals("AllCountries")) {
             List<Balloon> balloons = balloonService.listAll().stream().filter(b -> b.getManufacturer().getCountry().equals(manufacturerCountry)).collect(Collectors.toList());
             model.addAttribute("balloons", balloons);
             List<Manufacturer> manufacturers = manufacturerService.findAll();
             model.addAttribute("manufacturers", manufacturers);
             return "listBalloons";
         }
-        if(manufacturerName!=null && !manufacturerName.isEmpty() && !manufacturerName.equals("AllNames")){
+        if (manufacturerName != null && !manufacturerName.isEmpty() && !manufacturerName.equals("AllNames")) {
             List<Balloon> balloons = balloonService.listAll().stream().filter(b -> b.getManufacturer().getName().equals(manufacturerName)).collect(Collectors.toList());
             model.addAttribute("balloons", balloons);
             List<Manufacturer> manufacturers = manufacturerService.findAll();
@@ -42,7 +41,7 @@ public class BalloonController {
             System.out.println(balloons);
             return "listBalloons";
         }
-        if(error!=null && !error.isEmpty()){
+        if (error != null && !error.isEmpty()) {
             model.addAttribute("hasError", true);
             model.addAttribute("error", error);
         }
@@ -52,8 +51,9 @@ public class BalloonController {
         model.addAttribute("balloons", balloons);
         return "listBalloons";
     }
+
     @PostMapping
-    public String proceedWithOrder(HttpServletRequest request){
+    public String proceedWithOrder(HttpServletRequest request) {
         String chosenColor = request.getParameter("color");
         request.getSession().setAttribute("color", chosenColor);
         return "redirect:/selectBalloon";
@@ -76,7 +76,6 @@ public class BalloonController {
 
     @GetMapping("/edit-form/{id}")
     public String getEditBalloonPage(@PathVariable Long id, Model model) {
-        System.out.println("Idam tuka");
 
         if (balloonService.findById(id).isPresent()) {
             Balloon balloon = balloonService.findById(id).get();

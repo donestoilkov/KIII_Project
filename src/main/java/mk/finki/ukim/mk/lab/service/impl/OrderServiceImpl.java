@@ -1,12 +1,11 @@
 package mk.finki.ukim.mk.lab.service.impl;
 
 import mk.finki.ukim.mk.lab.model.Order;
-import mk.finki.ukim.mk.lab.repository.OrderRepository;
+import mk.finki.ukim.mk.lab.repository.jpa.OrderRepository;
 import mk.finki.ukim.mk.lab.service.OrderService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Random;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -18,17 +17,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order placeOrder(String balloonColor,String balloonSize, String clientName, String address) {
-        Long id = null;
-        Random rd = new Random();
-        id = rd.nextLong();
-        Order order = new Order(balloonColor,balloonSize,clientName,address,id);
-        orderRepository.saveOrUpdate(order);
-        return order;
+    public Order placeOrder(String balloonColor, String balloonSize, String username) {
+        return orderRepository.save(new Order(balloonColor, balloonSize, username));
+
     }
 
     @Override
     public List<Order> findAllOrders() {
-        return orderRepository.findAllOrders();
+        return orderRepository.findAll();
     }
 }

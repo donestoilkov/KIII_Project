@@ -1,4 +1,4 @@
-package mk.finki.ukim.mk.lab.repository;
+package mk.finki.ukim.mk.lab.repository.impl;
 
 import mk.finki.ukim.mk.lab.bootstrap.DataHolder;
 import mk.finki.ukim.mk.lab.model.Balloon;
@@ -10,28 +10,28 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
-public class BallonRepository {
+public class InMemoryBallonRepository {
 
-    public List<Balloon> findAllBalloons(){
+    public List<Balloon> findAllBalloons() {
         return DataHolder.balloons;
     }
 
-    public List<Balloon> findAllByNameOrDescription(String text){
+    public List<Balloon> findAllByNameOrDescription(String text) {
         return DataHolder.balloons
                 .stream()
-                .filter(b -> b.getName().contains(text)|| b.getDescription().contains(text)).collect(Collectors.toList());
+                .filter(b -> b.getName().contains(text) || b.getDescription().contains(text))
+                .collect(Collectors.toList());
     }
 
-    public void deleteById(Long id){
-        DataHolder.balloons.removeIf(b->b.getId().equals(id));
+    public void deleteById(Long id) {
+        DataHolder.balloons.removeIf(b -> b.getId().equals(id));
     }
 
-    public Balloon save(Balloon balloon){
+    public void save(Balloon balloon) {
         DataHolder.balloons.add(balloon);
-        return balloon;
     }
 
-    public Optional<Balloon> findById(Long id){
+    public Optional<Balloon> findById(Long id) {
         return DataHolder.balloons
                 .stream()
                 .filter(b -> b.getId().equals(id))

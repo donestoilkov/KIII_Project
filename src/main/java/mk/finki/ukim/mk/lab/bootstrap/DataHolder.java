@@ -17,7 +17,7 @@ public class DataHolder {
     public static List<Manufacturer> manufacturers = new ArrayList<>();
 
     @PostConstruct
-    public void init(){
+    public void init() {
 
         Manufacturer Balloons1 = new Manufacturer("Balloons And More", "USA", "One Bowerman Drive");
         Manufacturer Balloons2 = new Manufacturer("Qualatex", "USA", "5000 E. 29th St North");
@@ -25,17 +25,16 @@ public class DataHolder {
         Manufacturer Balloons4 = new Manufacturer("Balloon Fast", "USA", "115-A Industrial Loop");
         Manufacturer Balloons5 = new Manufacturer("Balloons Everywhere", "USA", "5733 E Shields Ave");
 
-        balloons.add(new Balloon("Red Balloon","Red Balloon",Balloons1));
-        balloons.add(new Balloon("Green Balloon","Green Balloon",Balloons2));
-        balloons.add(new Balloon("Yellow Balloon","Yellow Balloon",Balloons3));
-        balloons.add(new Balloon("Orange Balloon","Orange Balloon",Balloons4));
-        balloons.add(new Balloon("Purple Balloon","Purple Balloon",Balloons5));
-        balloons.add(new Balloon("Blue Balloon","Blue Balloon",Balloons1));
-        balloons.add(new Balloon("Classic Balloon","Regular White Balloon",Balloons2));
-        balloons.add(new Balloon("Black Balloon","Black Balloon",Balloons3));
-        balloons.add(new Balloon("Multi Color Balloon","Red Green and White Balloon",Balloons4));
-        balloons.add(new Balloon("Confetti Balloon","Balloon with confetti effect",Balloons5));
-
+        balloons.add(new Balloon("Red Balloon", "Red Balloon", Balloons1));
+        balloons.add(new Balloon("Green Balloon", "Green Balloon", Balloons2));
+        balloons.add(new Balloon("Yellow Balloon", "Yellow Balloon", Balloons3));
+        balloons.add(new Balloon("Orange Balloon", "Orange Balloon", Balloons4));
+        balloons.add(new Balloon("Purple Balloon", "Purple Balloon", Balloons5));
+        balloons.add(new Balloon("Blue Balloon", "Blue Balloon", Balloons1));
+        balloons.add(new Balloon("Classic Balloon", "Regular White Balloon", Balloons2));
+        balloons.add(new Balloon("Black Balloon", "Black Balloon", Balloons3));
+        balloons.add(new Balloon("Multi Color Balloon", "Red Green and White Balloon", Balloons4));
+        balloons.add(new Balloon("Confetti Balloon", "Balloon with confetti effect", Balloons5));
 
 
         manufacturers.add(Balloons1);
