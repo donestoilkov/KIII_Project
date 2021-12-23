@@ -1,6 +1,7 @@
 package mk.finki.ukim.mk.lab.model;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -21,6 +22,7 @@ public class User {
 
     private String surname;
 
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate dateOfBirth;
 
     @OneToMany(mappedBy = "user")

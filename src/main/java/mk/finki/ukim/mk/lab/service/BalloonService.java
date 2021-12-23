@@ -15,4 +15,6 @@ public interface BalloonService {
     Balloon save(String name, String description, Long manufacturerId, Long balloonID);
 
     Optional<Balloon> findById(Long id);
+
+    List<Balloon> filteredByManufacturerNameOrCountry(String manufacturerName,String manufacturerCountry);
 }

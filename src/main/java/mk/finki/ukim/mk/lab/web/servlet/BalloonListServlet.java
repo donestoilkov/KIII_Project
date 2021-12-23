@@ -2,6 +2,7 @@ package mk.finki.ukim.mk.lab.web.servlet;
 
 import mk.finki.ukim.mk.lab.service.BalloonService;
 import mk.finki.ukim.mk.lab.service.impl.BalloonServiceImpl;
+import org.springframework.context.annotation.Profile;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Profile("Done")
 @WebServlet (name = "BalloonList", urlPatterns = "")
 public class BalloonListServlet extends HttpServlet {
     private final BalloonService balloonService;

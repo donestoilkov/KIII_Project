@@ -8,8 +8,10 @@ import mk.finki.ukim.mk.lab.repository.jpa.ManufacturerRepository;
 import mk.finki.ukim.mk.lab.service.BalloonService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BalloonServiceImpl implements BalloonService {
@@ -55,5 +57,23 @@ public class BalloonServiceImpl implements BalloonService {
     @Override
     public Optional<Balloon> findById(Long id) {
         return ballonRepository.findById(id);
+    }
+
+    @Override
+    public List<Balloon> filteredByManufacturerNameOrCountry(String manufacturerName, String manufacturerCountry) {
+
+        List<Balloon> balloons = null;
+
+        if(manufacturerName!=null && !manufacturerName.isEmpty() && !manufacturerName.equals("AllNames")){
+            balloons = ballonRepository.findAllByManufacturer_Name(manufacturerName);
+            return balloons;
+        }
+        if(manufacturerCountry != null && !manufacturerCountry.isEmpty() && !manufacturerCountry.equals("AllCountries")){
+            balloons = ballonRepository.findAllByManufacturer_Country(manufacturerCountry);
+
+            return balloons;
+        }
+
+        return balloons;
     }
 }

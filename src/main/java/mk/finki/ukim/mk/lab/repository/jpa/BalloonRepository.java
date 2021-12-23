@@ -10,4 +10,7 @@ import java.util.List;
 public interface BalloonRepository extends JpaRepository<Balloon, Long> {
     List<Balloon> findAllByDescription(String text);
 
+    List<Balloon> findAllByManufacturer_Country(String country);
+    List<Balloon> findAllByManufacturer_Name(String name);
+
 }

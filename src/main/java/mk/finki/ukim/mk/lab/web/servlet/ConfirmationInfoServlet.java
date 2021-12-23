@@ -35,6 +35,8 @@ public class ConfirmationInfoServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String clientName = req.getParameter("clientName");
         String clientAddress = req.getParameter("clientAddress");
+        String date = req.getParameter("dateOfCreation");
+        System.out.println(date);
         String balloonColor = (String) req.getSession().getAttribute("color");
         String balloonSize = (String) req.getSession().getAttribute("size");
         orderService.placeOrder(balloonColor,balloonSize,clientName);

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/balloons")
+@RequestMapping(value = {"","/balloons"})
 public class BalloonController {
     private final BalloonService balloonService;
     private final ManufacturerService manufacturerService;
@@ -26,28 +26,20 @@ public class BalloonController {
     @GetMapping
     public String getBalloonsPage(@RequestParam(required = false) String error, @RequestParam(required = false) String manufacturerCountry,
                                   @RequestParam(required = false) String manufacturerName, Model model) {
-        if (manufacturerCountry != null && !manufacturerCountry.isEmpty() && !manufacturerCountry.equals("AllCountries")) {
-            List<Balloon> balloons = balloonService.listAll().stream().filter(b -> b.getManufacturer().getCountry().equals(manufacturerCountry)).collect(Collectors.toList());
+
+        List<Balloon> balloons = balloonService.filteredByManufacturerNameOrCountry(manufacturerName,manufacturerCountry);
+        List<Manufacturer> manufacturers = manufacturerService.findAll();
+        model.addAttribute("manufacturers", manufacturers);
+
+        if(balloons != null){
             model.addAttribute("balloons", balloons);
-            List<Manufacturer> manufacturers = manufacturerService.findAll();
-            model.addAttribute("manufacturers", manufacturers);
-            return "listBalloons";
-        }
-        if (manufacturerName != null && !manufacturerName.isEmpty() && !manufacturerName.equals("AllNames")) {
-            List<Balloon> balloons = balloonService.listAll().stream().filter(b -> b.getManufacturer().getName().equals(manufacturerName)).collect(Collectors.toList());
-            model.addAttribute("balloons", balloons);
-            List<Manufacturer> manufacturers = manufacturerService.findAll();
-            model.addAttribute("manufacturers", manufacturers);
-            System.out.println(balloons);
             return "listBalloons";
         }
         if (error != null && !error.isEmpty()) {
             model.addAttribute("hasError", true);
             model.addAttribute("error", error);
         }
-        List<Balloon> balloons = balloonService.listAll();
-        List<Manufacturer> manufacturers = manufacturerService.findAll();
-        model.addAttribute("manufacturers", manufacturers);
+        balloons = balloonService.listAll();
         model.addAttribute("balloons", balloons);
         return "listBalloons";
     }
