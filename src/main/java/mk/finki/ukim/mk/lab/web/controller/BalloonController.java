@@ -1,9 +1,12 @@
 package mk.finki.ukim.mk.lab.web.controller;
 
+import com.sun.net.httpserver.Authenticator;
 import mk.finki.ukim.mk.lab.model.Balloon;
 import mk.finki.ukim.mk.lab.model.Manufacturer;
 import mk.finki.ukim.mk.lab.service.BalloonService;
 import mk.finki.ukim.mk.lab.service.ManufacturerService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +28,11 @@ public class BalloonController {
 
     @GetMapping
     public String getBalloonsPage(@RequestParam(required = false) String error, @RequestParam(required = false) String manufacturerCountry,
-                                  @RequestParam(required = false) String manufacturerName, Model model) {
+                                  @RequestParam(required = false) String manufacturerName, Model model, Authentication authentication) {
+
+
+
+
 
         List<Balloon> balloons = balloonService.filteredByManufacturerNameOrCountry(manufacturerName,manufacturerCountry);
         List<Manufacturer> manufacturers = manufacturerService.findAll();
@@ -74,8 +81,9 @@ public class BalloonController {
             List<Manufacturer> manufacturers = manufacturerService.findAll();
             model.addAttribute("manufacturers", manufacturers);
             model.addAttribute("balloon", balloon);
+            model.addAttribute("bodycontent", "add-balloon");
 
-            return "add-balloon";
+            return "master-template";
         }
         return "redirect:/balloons?error=BalloonNotFound";
     }
@@ -84,7 +92,9 @@ public class BalloonController {
     public String getAddBalloonPage(Model model) {
         List<Manufacturer> manufacturers = manufacturerService.findAll();
         model.addAttribute("manufacturers", manufacturers);
-        return "add-balloon";
+        model.addAttribute("bodycontent", "add-balloon");
+
+        return "master-template";
     }
 
 }

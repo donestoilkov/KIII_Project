@@ -14,6 +14,7 @@
 <header>
     <h1>Welcome to our Balloon Shop App</h1>
 </header>
+<header th:if="${login!=null}" th:include="successLogin"/>
 <main>
     <hr>
     <hr>
@@ -44,6 +45,8 @@
     <hr>
     <a sec:authorize="!isAuthenticated()" th:href="@{'/login'}"
        class="btn btn-sm btn-info"><i class="fa fa-trash">Login</i></a>
+    <a sec:authorize="!isAuthenticated()" th:href="@{'/register'}"
+       class="btn btn-sm btn-info"><i class="fa fa-trash">Register here</i></a>
     <form sec:authorize="isAuthenticated()" th:action="@{'/logout'}" th:method="GET">
         <button type="submit">Logout</button>
     </form>

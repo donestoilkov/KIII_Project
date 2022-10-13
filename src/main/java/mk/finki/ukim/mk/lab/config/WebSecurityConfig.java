@@ -12,10 +12,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
+    private final CustomUsernamePasswordAuthenticationProvider customUsernamePasswordAuthenticationProvider;
 
 
-    public WebSecurityConfig(PasswordEncoder passwordEncoder) {
+    public WebSecurityConfig(PasswordEncoder passwordEncoder, CustomUsernamePasswordAuthenticationProvider customUsernamePasswordAuthenticationProvider) {
         this.passwordEncoder = passwordEncoder;
+        this.customUsernamePasswordAuthenticationProvider = customUsernamePasswordAuthenticationProvider;
     }
 
     @Override
@@ -24,7 +26,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/","/balloons","/register").permitAll()
                 .antMatchers("/balloons/add","/balloons/edit-form/**","/balloons/delete/**","/balloons/add-form").hasRole("ADMIN")
+                .anyRequest().authenticated()
                 .and().formLogin().defaultSuccessUrl("/balloons")
                 .and().logout()
                 .logoutUrl("/logout")
@@ -36,13 +40,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("admin")
-                .password(passwordEncoder.encode("admin"))
-                .authorities("ROLE_ADMIN")
-                .and()
-                .withUser("stoilkovdone")
-                .password(passwordEncoder.encode("stoilkovdone"))
-                .authorities("ROLE_USER");
+//        auth.inMemoryAuthentication()
+//                .withUser("admin")
+//                .password(passwordEncoder.encode("admin"))
+//                .authorities("ROLE_ADMIN")
+//                .and()
+//                .withUser("stoilkovdone")
+//                .password(passwordEncoder.encode("stoilkovdone"))
+//                .authorities("ROLE_USER");
+        auth.authenticationProvider(customUsernamePasswordAuthenticationProvider);
     }
 }

@@ -56,12 +56,20 @@ class LabApplicationTests {
     @Test
     public void testGetBalloons() throws Exception {
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/balloons");
+
+
+
         this.mockMvc.perform(request)
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.model().attributeExists("balloons"))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("manufacturers"))
                 .andExpect(MockMvcResultMatchers.view().name("listBalloons"));
+    }
+
+    @Test
+    public void testSuccessfulLogin(){
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/balloons");
     }
 
 }
