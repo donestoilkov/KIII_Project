@@ -15,11 +15,15 @@ public class Balloon {
     private String name;
 
     private String description;
+    
+    private String color;
+    
+    private Integer capacity;
 
     @ManyToOne
     private Manufacturer manufacturer;
 
-    public Balloon(String name, String description, Manufacturer manufacturer) {
+    public Balloon(String name, String description, Manufacturer manufacturer, String color, Integer capacity) {
         this.name = name;
         this.description = description;
         this.manufacturer = manufacturer;
