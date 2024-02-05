@@ -1,10 +1,11 @@
 version: "3"
 services:
   lab-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: "lab2021_app"
+    image: "donestoilko/kii_final:latest"
+    container_name: "lab2021_balloonshop_app"
+    environment:
+      - KII_DB_USER=${KII_DB_USER}
+      - KII_DB_PASS=${KII_DB_PASS}
     ports:
       - "8080:8080"
     depends_on:
@@ -12,10 +13,10 @@ services:
 
   lab-db:
     image: "postgres"
-    container_name: "lab2021_balloonshop"
+    container_name: "lab2021_balloonshop_db"
     environment:
-      - POSTGRES_USER=lab
-      - POSTGRES_PASSWORD=lab123
+      - POSTGRES_USER=${KII_DB_USER}
+      - POSTGRES_PASSWORD=${KII_DB_PASS}
       - POSTGRES_DB=balloon-shop
     ports:
       - "5432:5432"
