@@ -1,5 +1,6 @@
 package mk.finki.ukim.mk.lab.web.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import mk.finki.ukim.mk.lab.exceptions.InvalidArgumentException;
 import mk.finki.ukim.mk.lab.exceptions.PasswordsDoNotMatchException;
 import mk.finki.ukim.mk.lab.model.Role;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/register")
+@Slf4j
 public class RegisterController {
 
 
@@ -41,6 +43,7 @@ public class RegisterController {
                            @RequestParam String surname,
                            @RequestParam Role role) {
         try {
+            log.debug("Trying to register user: " + username + " and with role: " + role.name());
             this.userService.register(username, password, repeatedPassword, name, surname, role);
             return "redirect:/login";
         } catch (InvalidArgumentException | PasswordsDoNotMatchException exception) {

@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kii-final-config
+  namespace: kii-final
+data:
+  KII_DB_URL: kii-final-db-service.kii-final.svc.cluster.local
+  KII_DB_USER: lab
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kii-final-secret
+  namespace: kii-final
+type: Opaque
+data:
+  password: bGFiMzIx
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kii-final-deployment
+  namespace: kii-final
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: kii-final-app  # Updated label to match pod template
+  template:
+    metadata:
+      labels:
+        app: kii-final-app  # Updated label to match deployment selector
+    spec:
+      containers:
+        - name: kii-final-project-app
+          image: donestoilko/kii_final:latest
+          imagePullPolicy: Always  # Consider whether this policy is appropriate
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: kii-final-config
+          env:
+            - name: KII_DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: kii-final-secret
+                  key: password

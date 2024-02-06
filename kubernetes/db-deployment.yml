@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kii-final-db-config
+  namespace: kii-final
+data:
+  POSTGRES_DB: balloon-shop
+  POSTGRES_USER: lab
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kii-final-db-secret
+  namespace: kii-final
+type: Opaque
+data:
+  password: bGFiMzIx
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: kii-final-db-pvc
+  namespace: kii-final
+  labels:
+    app: postgres
+spec:
+  storageClassName: local-path
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: kii-final-postgres
+  namespace: kii-final
+spec:
+  serviceName: kii-final-db-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+        namespace: kii-final
+    spec:
+      containers:
+        - name: postgres
+          image: postgres
+          envFrom:
+            - configMapRef:
+                name: kii-final-db-config
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kii-final-db-secret
+                  key: password
+          ports:
+            - containerPort: 5432
+      volumes:
+        - name: kii-final-db-data
+          persistentVolumeClaim:
+            claimName: kii-final-db-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kii-final-db-service
+  namespace: kii-final
+spec:
+  selector:
+    app: postgres
+  ports:
+    - port: 5432
